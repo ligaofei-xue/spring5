@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+    IOC Inverse of Control（控制反转）是一种设计思想 将原本在程序中手动创建对象的流程，交由Spring框架来管理
+    核心：把创建对象的控制权反转给Spring框架，对象的生命周期由Spring统一管理
+    把spring ioc 当成一个容器，里面存储管理的对象称为Bean,类实例
+
+        一个bean就是一个对象
+        bean标签 id属性：指定Bean的名称，在Bean被别的类依赖时使用
+        name属性：用于指定Bean的别名，如果没有id，也可以用name
+        class属性：用于指定Bean的来源，要创建的Bean的class类
+    -->
+    <!--<bean id="video" class="com.ligaofei.domain.Video">
+       <property name="id" value="9"/>
+       <property name="title" value="Spring 5.X课程" />
+   </bean>-->
+
+    <!--使用set方法注入
+    scope属性 可以不写默认是单例
+    singleton：单例, 默认值，调用getBean方法返回是同一个对象,实例会被缓存起来，效率比较高 当一个bean被标识为singleton时候，spring的IOC容器中只会存在一个该bean
+    prototype: 多例，调用getBean方法创建不同的对象，会频繁的创建和销毁对象造成很大的开销
+    -->
+   <bean name="videoSet" class="com.ligaofei.domain.Video" scope="singleton">
+       <property name="id" value="9"/>
+       <property name="title" value="Spring 5.X课程" />
+   </bean>
+
+    <!--bean继承：两个类之间大多数的属性都相同，避免重复配置，
+    通过bean标签的parent属性重用已有的Bean元素的配置信息 继承指的是配置信息的复用，和Java类的继承没有关系-->
+    <bean name="videoJC" class="com.ligaofei.domain.Video2" parent="videoSet">
+        <property name="summary" value="这个是summary"/>
+    </bean>
+
+    <!--使用带参的构造函数注入-->
+    <bean id="video" class="com.ligaofei.domain.Video" >
+        <constructor-arg name="title" value="面试专题课程第一季"></constructor-arg>
+    </bean>
+
+    <bean id="videoListAndMap" class="com.ligaofei.domain.Video" >
+        <!--list类型注入-->
+        <property name="chapterList">
+            <list>
+                <value>第一章SpringBoot</value>
+                <value>第二章Mybatis</value>
+                <value>第三章Spring</value>
+            </list>
+        </property>
+
+        <property name="videoMap">
+            <map>
+                <entry key="1" value="SpringCloud课程"></entry>
+                <entry key="2" value="面试课程"></entry>
+                <entry key="3" value="javaweb课程"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--DI Dependency Injection ,依赖注入
+        IOC容器在运行期间，动态地将对象某种依赖关系注入到对象之中，比如视频订单对象videoOrder，依赖用视频对象video
+
+        属性依赖: 如果类A是作为类B的属性, 想要类A比类B先实例化，设置两个Bean的依赖关系
+        设置两个bean的关系，videoSet要先于videoOrder实例化
+    -->
+    <bean id="videoOrder" class="com.ligaofei.domain.VideoOrder" depends-on="videoSet">
+        <property name="id" value="8" />
+        <property name="outTradeNo" value="23432fnfwedwefqwef2"/>
+        <property name="video" ref="videoSet"/>
+    </bean>
+</beans>
