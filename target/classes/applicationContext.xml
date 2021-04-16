@@ -89,7 +89,7 @@
         no：默认没开启
         byName: 根据bean的id名称，注入到对应的属性里面
         byType：根据bean需要注入的类型，注入到对应的属性里面
-                如果按照类型注入，存在2个以上bean的话会抛异常 expected single matching bean but found 2
+                如果按照类型注入，存在2个以上bean的话会抛异常 expected single matching bean but found 2,IDEA的bean也会报错
         constructor: 通过构造函数注入，需要这个类型的构造函数
     -->
     <bean id="videoOrderAutowire" class="com.ligaofei.domain.VideoOrder" autowire="byName">
