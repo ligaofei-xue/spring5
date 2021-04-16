@@ -4,12 +4,44 @@ import com.ligaofei.domain.Video2;
 import com.ligaofei.domain.VideoOrder;
 import com.ligaofei.service.VideoService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
 
     public static void main(String [] args){
 
+//        xmlBean();
+        zjBean();
+
+    }
+
+    /**
+     * 测试注解获取bean
+     */
+    private static void zjBean(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        //扫描指定的包，包括子包
+        context.scan("com.ligaofei");
+        //里面完成初始化操作，核心方法
+        context.refresh();
+        VideoService videoService = (VideoService) context.getBean("videoService");
+        videoService.findById(2);
+        Video video = (Video) context.getBean("video");
+        video.init();
+
+        //测试注解scope作用域
+        Video video1 = (Video) context.getBean("video");
+        Video video2 = (Video) context.getBean("video");
+        System.out.println(video1 == video2);
+
+
+        VideoOrder videoOrder = (VideoOrder) context.getBean("videoOrderName");
+    }
+    /**
+     * 测试获取xml配置
+     */
+    private static void xmlBean(){
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 //        testInjectCollection(context);
@@ -20,9 +52,7 @@ public class App {
 //        testInitDestroy(context);
 //        videoOrderAutowire(context);
         testAop(context);
-
     }
-
     /**
      * 测试bean的生命周期里面的init和destroy方法
      * @param context
