@@ -16,7 +16,7 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private VideoDao videoDao;
 
-    @Resource
+    @Autowired
     private CustomConfig customConfig;
 
     public int save(Video video) {
@@ -28,6 +28,13 @@ public class VideoServiceImpl implements VideoService {
         System.out.println("根据id找视频");
         videoDao.test();
         System.out.println(customConfig.getHost());
+
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return new Video();
     }
 }

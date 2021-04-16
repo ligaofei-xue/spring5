@@ -11,8 +11,8 @@ public class App {
 
     public static void main(String [] args){
 
-//        xmlBean();
-        zjBean();
+        // xmlBean();
+       zjBean();
 
     }
 
