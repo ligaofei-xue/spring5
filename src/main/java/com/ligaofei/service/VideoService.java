@@ -1,4 +1,12 @@
 package com.ligaofei.service;
 
-public class VideoService {
+
+import com.ligaofei.domain.Video;
+
+public interface VideoService {
+
+    int save(Video video);
+
+    Video findById(int id);
+
 }

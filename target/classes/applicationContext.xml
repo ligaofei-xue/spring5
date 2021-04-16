@@ -2,7 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd">
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd"
+        xmlns:aop="http://www.springframework.org/schema/aop">
+        <!--使用AOP需添加3个约束schema-->
 
     <!--
     IOC Inverse of Control（控制反转）是一种设计思想 将原本在程序中手动创建对象的流程，交由Spring框架来管理
@@ -96,4 +100,32 @@
         <property name="id" value="8" />
         <property name="outTradeNo" value="23432fnfwedwefqwef2"/>
     </bean>
+
+    <bean id="timeHandler" class="com.ligaofei.aop.TimeHandler"/>
+    <bean id="videoService" class="com.ligaofei.service.VideoServiceImpl"/>
+    <!--aop配置-->
+    <aop:config>
+        <!--横切关注点-->
+        <aop:aspect id="timeAspect" ref="timeHandler">
+            <!--定义切入点表达式-->
+            <aop:pointcut id="allMethodLogPointCut" expression="execution(* com.ligaofei.service.VideoService.sav*(..))"/>
+<!--            <aop:pointcut id="allMethodLogPointCut" expression="execution(* com.ligaofei.service.VideoService.*(..))"/>-->
+            <!--配置前置通知和后置通知-->
+            <aop:before method="printBefore" pointcut-ref="allMethodLogPointCut"/>
+            <aop:after method="printAfter" pointcut-ref="allMethodLogPointCut"/>
+        </aop:aspect>
+
+        <!--横切关注点-->
+        <!--<aop:aspect id="timeAspect" ref="timeHandler">-->
+
+        <!--&lt;!&ndash;定义切入点表达式&ndash;&gt;-->
+        <!--&lt;!&ndash;<aop:pointcut id="allMethodLogPointCut" expression="execution(* net.xdclass.sp.service.VideoService.sav*(..))"/>&ndash;&gt;-->
+        <!--<aop:pointcut id="allMethodLogPointCut" expression="execution(* net.xdclass.sp.service.VideoService.*(..))"/>-->
+
+        <!--&lt;!&ndash;配置前置通知和后置通知&ndash;&gt;-->
+        <!--<aop:before method="printBefore" pointcut-ref="allMethodLogPointCut"/>-->
+        <!--<aop:after method="printAfter" pointcut-ref="allMethodLogPointCut"/>-->
+        <!--</aop:aspect>-->
+    </aop:config>
+
 </beans>

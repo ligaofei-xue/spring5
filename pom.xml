@@ -38,5 +38,31 @@
             <version>5.2.5.RELEASE</version>
         </dependency>
 
+        <!--AOP配置日志打印三个核心包
+            spring-aop：AOP核心功能，例如代理工厂(spring-context包含）
+            aspectjweaver：简单理解，支持切入点表达式
+            aspectjrt：简单理解，支持aop相关注解(aspectjrt包含)-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
     </dependencies>
+    <repositories>
+
+        <!--maven仓库改为阿里云-->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

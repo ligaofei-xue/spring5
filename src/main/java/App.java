@@ -2,6 +2,7 @@ import com.ligaofei.domain.User;
 import com.ligaofei.domain.Video;
 import com.ligaofei.domain.Video2;
 import com.ligaofei.domain.VideoOrder;
+import com.ligaofei.service.VideoService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -17,7 +18,8 @@ public class App {
 //        testSetInject(context);
 //        testBeanJc(context);
 //        testInitDestroy(context);
-        videoOrderAutowire(context);
+//        videoOrderAutowire(context);
+        testAop(context);
 
     }
 
@@ -93,5 +95,16 @@ public class App {
         Video  video2 = (Video)context.getBean("video");
         //靠匹配内存地址，== 是匹配内存地址
         System.out.println( video1 == video2 );
+    }
+
+    /**
+     * 测试AOP
+     * @param context
+     */
+    private static  void testAop(ApplicationContext context){
+        VideoService videoService = (VideoService)context.getBean("videoService");
+        videoService.save(new Video());
+        videoService.findById(33);
+
     }
 }
