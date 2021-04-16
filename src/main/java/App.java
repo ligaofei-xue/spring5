@@ -1,3 +1,4 @@
+import com.ligaofei.domain.User;
 import com.ligaofei.domain.Video;
 import com.ligaofei.domain.Video2;
 import com.ligaofei.domain.VideoOrder;
@@ -10,12 +11,24 @@ public class App {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        testInjectCollection(context);
-        testInject(context);
-        testScope(context);
-        testSetInject(context);
-        testBeanJc(context);
+//        testInjectCollection(context);
+//        testInject(context);
+//        testScope(context);
+//        testSetInject(context);
+//        testBeanJc(context);
+//        testInitDestroy(context);
+        videoOrderAutowire(context);
 
+    }
+
+    /**
+     * 测试bean的生命周期里面的init和destroy方法
+     * @param context
+     */
+    private static void testInitDestroy(ApplicationContext context){
+        User user = (User) context.getBean("User");
+        //注册回调函数，就会调用destroy了
+        ((ClassPathXmlApplicationContext) context).registerShutdownHook();
     }
 
     /**
@@ -37,6 +50,16 @@ public class App {
         System.out.println(video.getTitle());
 
         VideoOrder videoOrder = (VideoOrder)context.getBean("videoOrder");
+        System.out.println(videoOrder.getOutTradeNo());
+        System.out.println(videoOrder.getVideo().getTitle());
+    }
+
+    /**
+     * 测试autowire自动注入
+     * @param context
+     */
+    private static  void videoOrderAutowire(ApplicationContext context){
+        VideoOrder videoOrder = (VideoOrder)context.getBean("videoOrderAutowire");
         System.out.println(videoOrder.getOutTradeNo());
         System.out.println(videoOrder.getVideo().getTitle());
     }

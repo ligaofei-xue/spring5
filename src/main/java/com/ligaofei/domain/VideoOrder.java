@@ -11,6 +11,16 @@ public class VideoOrder {
 
     private Video video;
 
+    /**
+     * bean自动装配Autowire 属性
+     *  autowire="constructor"
+     *  通过构造函数注入，需要这个类型的构造函数
+     * @param video
+     */
+    public VideoOrder(Video video){
+        this.video=video;
+    }
+
 
 
     public VideoOrder(){
